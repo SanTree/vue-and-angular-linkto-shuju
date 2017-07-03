@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="Generator" content="Sublime Text3">
+    <meta name="Author" content="中山卉子">
+    <meta name="Description" content="初!">
+    <meta name="viewport" content="width=device-width,initial-scale=1,mininum-scale=1,maxinum-scale=1,user-scable=no">
+</head>
+<body>
+    <ul id="app">
+    	<li v-for="ite in data.items">
+    		<a href="#"><img v-bind:src="'http://juhuituan.boguyuan.com/juhuituan' + ite.img"></a>
+    		<h3>{{ite.ti}}</h3>
+    		<p>{{ite.con}}</p>
+    		<span>{{ite.fpri}}</span>/
+    		<span>{{ite.pri}}</span>
+    		<span>{{ite.num}}</span>
+    	</li>
+    </ul>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+    var vue = new Vue({
+    	el:"#app",
+    	data:{data:""},
+    	created:function(){
+    		var that = this;
+            var xhr = new XMLHttpRequest();
+    		xhr.onreadystatechange = function(){
+    			if (xhr.readyState==4) 
+    				{
+    					that.data = JSON.parse(xhr.responseText).data;
+    					console.log(that.data);
+    				};
+    		}
+    		xhr.open("POST","http://juhuituan.boguyuan.com/juhuituan/reqData",true);
+    		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    		xhr.send("action=listPro&acode=1&uid=25146&type=1&id=2&pgnm=1");
+
+    	}
+    })
+    
+
+    </script>
+</body>
+</html>

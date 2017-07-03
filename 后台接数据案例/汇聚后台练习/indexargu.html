@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="Generator" content="Sublime Text3">
+    <meta name="Author" content="中山卉子">
+    <meta name="Description" content="初!">
+    <meta name="viewport" content="width=device-width,initial-scale=1,mininum-scale=1,maxinum-scale=1,user-scable=no">
+</head>
+<body ng-app="app">
+    <ul ng-controller="main">
+    	<li ng-repeat="ite in data.items" ng-click="clickBtn(ite.id)">
+    		<a href="#"><img ng-src="http://juhuituan.boguyuan.com/juhuituan{{ite.img}}"></a>
+    		<h3>{{ite.ti}}</h3>
+    		<p>{{ite.con}}</p>
+    		<span>{{ite.fpri}}</span>/
+    		<span>{{ite.pri}}</span>
+    		<span>{{ite.num}}</span>
+    	</li>
+    </ul>
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript">
+    var app = angular.module("app",[]);
+    app.controller("main",function($scope,$http){
+    	// 请求数据
+       $http({
+       	method:"POST",
+       	url:"http://juhuituan.boguyuan.com/juhuituan/reqData",
+       	params:{
+       		action:"listPro",
+       		acode:"1",
+       		uid:"25146",
+       		type:"1"
+       	}
+       })
+       .success(function(res){
+       	console.log(res);
+       	$scope.data = res.data;//得到数据
+       }),
+       // 点击商品进入到商品详情页，这里数据没有展示完
+       $scope.clickBtn = function(pid){//pid作为形参
+       	$http({
+       		method:"POST",
+       		url:"http://juhuituan.boguyuan.com/juhuituan/reqData",
+       		params:{
+       			action:"viewPro",
+       			acode:"1",
+       			uid:"25146",
+       			id:pid//每一个商品id
+       		}
+       	})
+       	.success(function(res){
+       		console.log(res);
+       		var datas = res;
+       		$scope.data.items = [res.data];//将请求回来的数据展示到ui上，用[]是因为data.items本身就是一个数组，这种方法不能返回上一页
+       	})
+       }
+
+    })
+    </script>
+</body>
+</html>

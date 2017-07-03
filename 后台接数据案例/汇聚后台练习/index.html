@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>汇聚</title>
+    <meta name="Generator" content="Sublime Text3">
+    <meta name="Author" content="中山卉子">
+    <meta name="Description" content="初!">
+    <meta name="viewport" content="width=device-width,initial-sacle=1,maxinum=1,mininum=1,user-scable=no">
+    <style type="text/css">
+    #app li{
+       border: 1px solid gray;
+       margin-bottom: 0.6em;
+       padding: 0.6em;
+    }
+
+    </style>
+</head>
+<body>
+    <ul id="app">
+        <!-- 用v-for遍历根据items里的数据创建li -->
+    	<li v-for="itm in data.items">
+    		<a href="#"><img v-bind:src="'http://juhuituan.boguyuan.com/juhuituan' + itm.img"></a>
+    		<h3>{{itm.ti}}</h3>
+    		<p>{{itm.con}}</p>
+    		<span>{{itm.fpri}}</span>/
+    		<span>{{itm.pri}}</span>
+    		<span>{{itm.num}}人</span>
+    	</li>
+    </ul>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript">
+     var vue = new Vue({
+     	el:"#app",
+     	data:{data:""},
+     	created:function()
+     	{
+     		var that = this;
+     		// var data={};//定义一个变量用来接收数据
+		     // AjAX数据请求开始
+		     var xhr = new XMLHttpRequest();
+		         xhr.onreadystatechange = function(){
+		         	if (xhr.readyState==4) 
+		         		{
+		         			// console.log(xhr.responseText);
+		         			that.data = JSON.parse(xhr.responseText).data;//json字符串转为json，拿到想要的data数据
+		         		};
+		         }
+		         xhr.open("POST","http://juhuituan.boguyuan.com/juhuituan/reqData?",true);
+		         xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		         xhr.send("action=listPro&acode=1&uid=25146&type=1&id=2&pgnm=1");
+		      // 数据请求结束
+     	}
+     });
+
+     
+
+    </script>
+</body>
+</html>
